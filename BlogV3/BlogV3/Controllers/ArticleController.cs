@@ -16,11 +16,7 @@ namespace BlogV3.Controllers
         private readonly ApplicationDbContext _context;
 
 
-        private bool IsAuthorizeToEdit(Article article)
-        {
-            bool isAuthor = article.IsAuthor(this.User.Identity.Name);
-            return isAuthor;
-        }
+      
 
         public ArticleController(ApplicationDbContext context)
         {
@@ -102,9 +98,6 @@ namespace BlogV3.Controllers
             model.Title = article.Title;
             model.Content = article.Content;
 
-     
-
-
             return View(model);
         }
 
@@ -146,10 +139,7 @@ namespace BlogV3.Controllers
             {
                 return NotFound();
             }
-            if (IsAuthorizeToEdit(article) == false)
-            {
-                return Forbid();
-            }
+    
             return View(article);
         }
 
@@ -168,6 +158,14 @@ namespace BlogV3.Controllers
         private bool ArticleExists(int id)
         {
             return _context.Articles.Any(e => e.Id == id);
+        }
+
+        private bool IsUserAthorize(Article article)
+        {
+            bool isAuthor = article.IsAuthor(this.User.Identity.Name);
+
+            return isAuthor;
+
         }
     }
 }
