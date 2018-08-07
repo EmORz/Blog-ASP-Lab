@@ -24,10 +24,22 @@ namespace BlogV3.Controllers
         }
 
         // GET: Article
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var applicationDbContext = _context.Articles.Include(a => a.Author);
+        //    return View(await applicationDbContext.ToListAsync());
+        //}
+
+
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Articles.Include(a => a.Author);
-            return View(await applicationDbContext.ToListAsync());
+            return RedirectToAction("List");
+        }
+
+        public IActionResult List()
+        {
+            var articles = _context.Articles.Include(a => a.Author).ToList();
+            return View(articles);
         }
 
         // GET: Article/Details/5
